@@ -22,6 +22,26 @@ class Cluster {
         distA.sort( (a,b) => a.dist - b.dist );
         return distA;
     }
+    static average( data ) {
+        var cluster = {};
+        for ( var v of data ) {
+            if ( ! cluster[ v['clust'] ] ) {
+                cluster[ v['clust'] ] = { 'sum1':0, 'sum2':0, 'n':0 };
+            }
+            cluster[ v['clust'] ].sum1 += v['val'];
+            cluster[ v['clust'] ].sum2 += v['val'] * v['val'];
+            cluster[ v['clust'] ].n++;
+        }
+        var means = [];
+        for ( var k in cluster ) {
+            cluster[k].mean = cluster[k].sum1 / cluster[k].n;
+            cluster[k].vari = cluster[k].sum2 / cluster[k].n - (cluster[k].mean)**2;
+            means.push( cluster[k] );
+        }
+        means.sort( (a,b) => a.mean - b.mean );
+        means.forEach( a => { delete a['sum1']; delete a['sum2'];} ); 
+        return means;
+    }
     static annotate( data0 ) {
         var data = this.loadArray( data0 );
         var [ penult, last ] = [ data[data.length-2], data[data.length-1] ];
@@ -44,7 +64,8 @@ class Cluster {
             }
         }
         if ( sentinel ) data.pop(); // remove sentinel
-        return data;
+        return this.average( data );
+//        return data;
     }
 }
 
