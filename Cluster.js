@@ -1,3 +1,8 @@
+/* ******************************************* */
+/* Usage:                                      */
+/* var Cluster = require('./Cluster.js');      */
+/* var clusters = Cluster.annotate( data );    */
+/* ******************************************* */
 class Cluster {
     static randData( size ) {
         var data = new Array( size );
