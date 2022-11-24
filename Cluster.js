@@ -65,7 +65,6 @@ class Cluster {
         }
         if ( sentinel ) data.pop(); // remove sentinel
         return this.average( data );
-//        return data;
     }
 }
 
